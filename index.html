@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GEE Pal AI — AI-Powered Google Earth Engine Assistant | notGIS</title>
+<meta name="description" content="GEE Pal AI is a Chrome extension that brings AI-powered code generation, modification and auto-fix directly into Google Earth Engine. By notGIS."/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#fff;line-height:1.7;}
+  a{color:#22CC22;text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* NAV */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 60px;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    background:rgba(10,14,26,0.95);
+    position:sticky;top:0;z-index:100;
+  }
+  .nav-logo{display:flex;align-items:center;gap:12px;}
+  .nav-logo-box{
+    width:38px;height:38px;border-radius:9px;
+    background:linear-gradient(135deg,#F5A623,#d4880a);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:900;color:#000;
+  }
+  .nav-name{font-size:18px;font-weight:800;color:#fff;}
+  .nav-name span{color:#22CC22;}
+  .nav-by{font-size:12px;color:#F5A623;font-weight:600;margin-top:1px;}
+  .nav-links{display:flex;gap:28px;align-items:center;}
+  .nav-links a{font-size:14px;color:rgba(255,255,255,0.6);font-weight:500;}
+  .nav-links a:hover{color:#fff;text-decoration:none;}
+  .nav-cta{
+    background:linear-gradient(135deg,#22CC22,#178A17);
+    color:#fff!important;padding:9px 20px;border-radius:20px;
+    font-size:14px;font-weight:700;
+  }
+  .nav-cta:hover{text-decoration:none!important;opacity:0.9;}
+
+  /* HERO */
+  .hero{
+    text-align:center;padding:90px 20px 70px;
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(34,204,34,0.07) 0%,transparent 70%);
+    top:-150px;left:50%;transform:translateX(-50%);
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(245,166,35,0.12);
+    border:1px solid rgba(245,166,35,0.3);
+    border-radius:20px;padding:6px 16px;
+    font-size:13px;color:#F5A623;font-weight:600;
+    margin-bottom:24px;
+  }
+  .hero-tag-dot{width:7px;height:7px;border-radius:50%;background:#F5A623;}
+  .hero h1{font-size:52px;font-weight:800;line-height:1.15;margin-bottom:16px;}
+  .hero h1 .g{color:#22CC22;}
+  .hero p{font-size:18px;color:rgba(255,255,255,0.55);max-width:580px;margin:0 auto 36px;}
+  .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{
+    background:linear-gradient(135deg,#22CC22,#178A17);
+    color:#fff;padding:14px 30px;border-radius:24px;
+    font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-secondary{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    color:#fff;padding:14px 30px;border-radius:24px;
+    font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary:hover,.btn-secondary:hover{text-decoration:none;opacity:0.9;}
+
+  /* STATS */
+  .stats{
+    display:flex;justify-content:center;gap:48px;
+    padding:40px 20px;
+    border-top:1px solid rgba(255,255,255,0.06);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .stat-item{text-align:center;}
+  .stat-num{font-size:32px;font-weight:800;color:#22CC22;}
+  .stat-lbl{font-size:13px;color:rgba(255,255,255,0.45);margin-top:4px;}
+
+  /* FEATURES */
+  .section{padding:72px 60px;}
+  .section-tag{
+    display:inline-block;
+    background:rgba(34,204,34,0.1);
+    border:1px solid rgba(34,204,34,0.25);
+    border-radius:16px;padding:4px 14px;
+    font-size:12px;color:#22CC22;font-weight:700;
+    letter-spacing:0.8px;margin-bottom:16px;
+  }
+  .section h2{font-size:36px;font-weight:800;margin-bottom:10px;}
+  .section h2 span{color:#22CC22;}
+  .section .sub{font-size:16px;color:rgba(255,255,255,0.45);margin-bottom:48px;}
+
+  .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .feat-card{
+    border-radius:16px;padding:28px 24px;
+    position:relative;overflow:hidden;
+  }
+  .fc-icon{font-size:32px;margin-bottom:14px;display:block;}
+  .fc-name{font-size:18px;font-weight:800;margin-bottom:8px;}
+  .fc-desc{font-size:14px;line-height:1.6;}
+  .fc-tag{
+    position:absolute;top:18px;right:18px;
+    border-radius:8px;padding:3px 10px;
+    font-size:11px;font-weight:700;
+  }
+
+  .fc-run   {background:#0d2a0d;border:1px solid rgba(34,204,34,0.2);}
+  .fc-run   .fc-name{color:#22CC22;} .fc-run   .fc-desc{color:rgba(34,204,34,0.6);} .fc-run   .fc-tag{background:rgba(34,204,34,0.12);color:#22CC22;}
+  .fc-fix   {background:#2a0d0d;border:1px solid rgba(226,75,74,0.2);}
+  .fc-fix   .fc-name{color:#E24B4A;} .fc-fix   .fc-desc{color:rgba(226,75,74,0.6);} .fc-fix   .fc-tag{background:rgba(226,75,74,0.12);color:#E24B4A;}
+  .fc-mod   {background:#1e1400;border:1px solid rgba(245,166,35,0.2);}
+  .fc-mod   .fc-name{color:#F5A623;} .fc-mod   .fc-desc{color:rgba(245,166,35,0.6);} .fc-mod   .fc-tag{background:rgba(245,166,35,0.12);color:#F5A623;}
+  .fc-py    {background:#16102a;border:1px solid rgba(127,119,221,0.2);}
+  .fc-py    .fc-name{color:#7F77DD;} .fc-py    .fc-desc{color:rgba(127,119,221,0.6);} .fc-py    .fc-tag{background:rgba(127,119,221,0.12);color:#7F77DD;}
+  .fc-r     {background:#0d1a2a;border:1px solid rgba(55,138,221,0.2);}
+  .fc-r     .fc-name{color:#378ADD;} .fc-r     .fc-desc{color:rgba(55,138,221,0.6);} .fc-r     .fc-tag{background:rgba(55,138,221,0.12);color:#378ADD;}
+  .fc-ai    {background:#001a14;border:1px solid rgba(29,158,117,0.2);}
+  .fc-ai    .fc-name{color:#1D9E75;} .fc-ai    .fc-desc{color:rgba(29,158,117,0.6);} .fc-ai    .fc-tag{background:rgba(29,158,117,0.12);color:#1D9E75;}
+
+  /* SENSORS */
+  .sensors{padding:60px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);}
+  .sensors h2{font-size:28px;font-weight:800;margin-bottom:8px;}
+  .sensors .sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:32px;}
+  .sensor-pills{display:flex;flex-wrap:wrap;gap:10px;}
+  .sp{
+    padding:8px 16px;border-radius:20px;
+    font-size:13px;font-weight:600;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color:rgba(255,255,255,0.7);
+  }
+
+  /* API */
+  .api-section{padding:72px 60px;text-align:center;}
+  .api-section h2{font-size:32px;font-weight:800;margin-bottom:10px;}
+  .api-section .sub{font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:40px;}
+  .api-cards{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+  .api-card{
+    border-radius:16px;padding:28px 32px;
+    text-align:left;width:300px;
+  }
+  .ac1{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);}
+  .ac2{background:rgba(55,138,221,0.08);border:1px solid rgba(55,138,221,0.2);}
+  .ac-name{font-size:18px;font-weight:800;margin-bottom:6px;}
+  .ac1 .ac-name{color:#F5A623;} .ac2 .ac-name{color:#378ADD;}
+  .ac-models{font-size:13px;margin-bottom:12px;}
+  .ac1 .ac-models{color:rgba(245,166,35,0.7);} .ac2 .ac-models{color:rgba(55,138,221,0.7);}
+  .ac-link{font-size:13px;font-weight:600;}
+  .ac1 .ac-link{color:#F5A623;} .ac2 .ac-link{color:#378ADD;}
+
+  /* CTA */
+  .cta-section{
+    padding:80px 60px;text-align:center;
+    background:linear-gradient(135deg,rgba(34,204,34,0.06),rgba(245,166,35,0.04));
+    border-top:1px solid rgba(34,204,34,0.1);
+  }
+  .cta-section h2{font-size:38px;font-weight:800;margin-bottom:12px;}
+  .cta-section p{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:36px;}
+
+  /* FOOTER */
+  footer{
+    padding:36px 60px;
+    border-top:1px solid rgba(255,255,255,0.07);
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:16px;
+  }
+  .footer-brand{font-size:15px;font-weight:800;color:#F5A623;}
+  .footer-links{display:flex;gap:20px;}
+  .footer-links a{font-size:13px;color:rgba(255,255,255,0.4);font-weight:500;}
+  .footer-disc{font-size:11px;color:rgba(255,255,255,0.2);max-width:600px;margin-top:8px;width:100%;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-box">G</div>
+    <div>
+      <div class="nav-name"><span>GEE Pal</span> AI</div>
+      <div class="nav-by">by notGIS</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#sensors">Datasets</a>
+    <a href="#api">API</a>
+    <a href="support.html">Support</a>
+    <a href="privacy-policy.html">Privacy</a>
+    <a class="nav-cta" href="https://chrome.google.com/webstore" target="_blank">&#8595; Install Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div>Chrome Extension · v1.0.0 · Free</div>
+  <h1>AI coding assistant for<br><span class="g">Google Earth Engine</span></h1>
+  <p>Generate, modify and auto-fix Earth Engine JavaScript code using Routerway or Gemini — directly in your browser.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="https://chrome.google.com/webstore" target="_blank">&#8595; Add to Chrome — Free</a>
+    <a class="btn-secondary" href="https://github.com/notGIS/gee-pal-ai" target="_blank">&#9733; GitHub</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">6</div><div class="stat-lbl">Powerful tools</div></div>
+  <div class="stat-item"><div class="stat-num">15+</div><div class="stat-lbl">Spectral indices</div></div>
+  <div class="stat-item"><div class="stat-num">50+</div><div class="stat-lbl">AI models via Routeway</div></div>
+  <div class="stat-item"><div class="stat-num">10+</div><div class="stat-lbl">Satellite sensors</div></div>
+</div>
+
+<!-- FEATURES -->
+<div class="section" id="features">
+  <div class="section-tag">FEATURES</div>
+  <h2>Everything you need to code in <span>Earth Engine</span></h2>
+  <div class="sub">Six tools in one Chrome side panel — no switching tabs, no copy-paste.</div>
+
+  <div class="cards-grid">
+    <div class="feat-card fc-run">
+      <div class="fc-tag">Quick action</div>
+      <span class="fc-icon">&#9654;</span>
+      <div class="fc-name">Run</div>
+      <div class="fc-desc">Execute your Earth Engine script instantly from the side panel — no need to click the GEE Run button manually.</div>
+    </div>
+    <div class="feat-card fc-fix">
+      <div class="fc-tag">4 attempts</div>
+      <span class="fc-icon">&#128295;</span>
+      <div class="fc-name">Auto-Fix</div>
+      <div class="fc-desc">AI reads your console errors and repairs the code automatically — up to 4 attempts without any manual intervention.</div>
+    </div>
+    <div class="feat-card fc-mod">
+      <div class="fc-tag">Step-by-step</div>
+      <span class="fc-icon">&#9998;</span>
+      <div class="fc-name">Modify Code</div>
+      <div class="fc-desc">Add legends, charts, titles, animations, new indices or sensors to your existing script — AI changes only what you ask.</div>
+    </div>
+    <div class="feat-card fc-ai">
+      <div class="fc-tag">15+ indices · ML</div>
+      <span class="fc-icon">&#9881;</span>
+      <div class="fc-name">Generate Script</div>
+      <div class="fc-desc">Describe your analysis in plain English and get a complete, ready-to-run Earth Engine JavaScript script instantly.</div>
+    </div>
+    <div class="feat-card fc-py">
+      <div class="fc-tag">geemap · ee-api</div>
+      <span class="fc-icon">&#128013;</span>
+      <div class="fc-name">Python Export</div>
+      <div class="fc-desc">Convert any Earth Engine script to Python code using earthengine-api and geemap. Ready for Jupyter Notebook.</div>
+    </div>
+    <div class="feat-card fc-r">
+      <div class="fc-tag">rgee</div>
+      <span class="fc-icon">R</span>
+      <div class="fc-name">R Export</div>
+      <div class="fc-desc">Convert your Earth Engine script to R code using the rgee package. Ready to run in RStudio immediately.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SENSORS -->
+<div class="sensors" id="sensors">
+  <div class="section-tag">DATASETS</div>
+  <h2>Supported sensors & datasets</h2>
+  <div class="sub">All major satellite platforms and geospatial datasets supported out of the box.</div>
+  <div class="sensor-pills">
+    <div class="sp">Sentinel-1 SAR</div>
+    <div class="sp">Sentinel-2 SR</div>
+    <div class="sp">Sentinel-5P TROPOMI</div>
+    <div class="sp">Landsat 5 / 7 / 8 / 9</div>
+    <div class="sp">MODIS NDVI</div>
+    <div class="sp">MODIS LST</div>
+    <div class="sp">MODIS Fire</div>
+    <div class="sp">SRTM DEM</div>
+    <div class="sp">CHIRPS Precipitation</div>
+    <div class="sp">GPM IMERG</div>
+    <div class="sp">SMAP Soil Moisture</div>
+    <div class="sp">ERA5 Climate</div>
+    <div class="sp">VIIRS Night Lights</div>
+    <div class="sp">DMSP Night Lights</div>
+    <div class="sp">JRC Surface Water</div>
+    <div class="sp">ESA WorldCover</div>
+    <div class="sp">FAO GAUL Boundaries</div>
+    <div class="sp">WorldPop</div>
+    <div class="sp">NDVI · EVI · SAVI · LAI</div>
+    <div class="sp">NDWI · MNDWI · NBR</div>
+    <div class="sp">Random Forest · SVM · CART</div>
+    <div class="sp">LandTrendr · CVA</div>
+  </div>
+</div>
+
+<!-- API -->
+<div class="api-section" id="api">
+  <div class="section-tag">AI PROVIDERS</div>
+  <h2>Choose your AI model</h2>
+  <div class="sub">Use your own API key — keys are stored locally and never shared.</div>
+  <div class="api-cards">
+    <div class="api-card ac1">
+      <div class="ac-name">Routeway AI</div>
+      <div class="ac-models">Llama ·4+ models</div>
+      <a class="ac-link" href="https://routeway.ai" target="_blank">Get API key →</a>
+    </div>
+    <div class="api-card ac2">
+      <div class="ac-name">Google Gemini</div>
+      <div class="ac-models">Gemini Pro · Flash · Free tier available</div>
+      <a class="ac-link" href="https://ai.google.dev" target="_blank">Get API key →</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Start coding smarter today</h2>
+  <p>Free Chrome extension. No registration. Just add your API key and start.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="https://chrome.google.com/webstore" target="_blank">&#8595; Add to Chrome — Free</a>
+    <a class="btn-secondary" href="support.html">Need help?</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">notGIS</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;">NOT JUST GiS. EVERYTHiNG AROUND iT</div>
+  </div>
+  <div class="footer-links">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="support.html">Support</a>
+    <a href="https://github.com/notGIS/gee-pal-ai" target="_blank">GitHub</a>
+    <a href="https://www.youtube.com/@notGiS" target="_blank">YouTube</a>
+  </div>
+  <div class="footer-disc">
+    ⚠️ GEE Pal AI is an independent third-party Chrome extension by notGIS.
+    Not affiliated with Google LLC, Google Earth Engine, Alphabet Inc.
+    All trademarks belong to their respective owners. © 2026 notGIS. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>
