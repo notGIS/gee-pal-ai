@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Support — GEE Pal AI | notGIS</title>
+<meta name="description" content="Get help and support for GEE Pal AI Chrome Extension. FAQ, contact, and resources."/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#fff;line-height:1.7;}
+  a{color:#22CC22;text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 60px;border-bottom:1px solid rgba(255,255,255,0.07);
+    background:rgba(10,14,26,0.95);position:sticky;top:0;z-index:100;
+  }
+  .nav-logo{display:flex;align-items:center;gap:12px;}
+  .nav-logo-box{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,#F5A623,#d4880a);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#000;}
+  .nav-name{font-size:18px;font-weight:800;color:#fff;}
+  .nav-name span{color:#22CC22;}
+  .nav-by{font-size:12px;color:#F5A623;font-weight:600;}
+  .nav-links{display:flex;gap:24px;align-items:center;}
+  .nav-links a{font-size:14px;color:rgba(255,255,255,0.6);font-weight:500;}
+  .nav-links a:hover{color:#fff;text-decoration:none;}
+
+  /* HERO */
+  .hero{text-align:center;padding:64px 20px 48px;}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(55,138,221,0.12);border:1px solid rgba(55,138,221,0.3);border-radius:20px;padding:6px 16px;font-size:13px;color:#378ADD;font-weight:600;margin-bottom:20px;}
+  .hero h1{font-size:40px;font-weight:800;margin-bottom:12px;}
+  .hero h1 span{color:#22CC22;}
+  .hero p{font-size:16px;color:rgba(255,255,255,0.5);max-width:500px;margin:0 auto;}
+
+  .container{max-width:860px;margin:0 auto;padding:0 24px 80px;}
+
+  /* CONTACT CARDS */
+  .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:56px;}
+  .contact-card{
+    border-radius:14px;padding:24px 20px;text-align:center;
+    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+    transition:border-color 0.2s;
+  }
+  .contact-card:hover{border-color:rgba(255,255,255,0.18);}
+  .cc-icon{font-size:28px;margin-bottom:12px;}
+  .cc-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+  .cc-desc{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:14px;}
+  .cc-link{display:inline-block;padding:7px 18px;border-radius:16px;font-size:13px;font-weight:600;}
+  .cl-green{background:rgba(34,204,34,0.12);border:1px solid rgba(34,204,34,0.25);color:#22CC22;}
+  .cl-amber{background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:#F5A623;}
+  .cl-blue{background:rgba(55,138,221,0.12);border:1px solid rgba(55,138,221,0.25);color:#378ADD;}
+  .cl-red{background:rgba(226,75,74,0.12);border:1px solid rgba(226,75,74,0.25);color:#E24B4A;}
+
+  /* SECTION TITLE */
+  .sec-title{font-size:24px;font-weight:800;margin-bottom:6px;}
+  .sec-title span{color:#22CC22;}
+  .sec-sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:28px;}
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:12px;margin-bottom:56px;}
+  .faq-item{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;padding:20px 24px;
+  }
+  .faq-q{font-size:15px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;}
+  .faq-q::before{content:'Q';background:rgba(34,204,34,0.15);border:1px solid rgba(34,204,34,0.3);color:#22CC22;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;flex-shrink:0;margin-top:2px;}
+  .faq-a{font-size:14px;color:rgba(255,255,255,0.55);padding-left:34px;line-height:1.7;}
+  .faq-a code{background:rgba(255,255,255,0.08);padding:2px 7px;border-radius:5px;font-size:13px;color:#22CC22;}
+
+  /* REQUIREMENTS */
+  .req-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:56px;}
+  .req-card{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;padding:20px 22px;
+  }
+  .req-title{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .req-item{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:6px;display:flex;align-items:flex-start;gap:8px;}
+  .req-item::before{content:'✓';color:#22CC22;flex-shrink:0;}
+
+  /* DISCLAIMER */
+  .disclaimer{
+    background:rgba(226,75,74,0.06);
+    border:1px solid rgba(226,75,74,0.15);
+    border-radius:12px;padding:20px 24px;
+    font-size:13px;color:rgba(255,255,255,0.45);
+    line-height:1.7;
+  }
+  .disclaimer strong{color:rgba(255,255,255,0.65);}
+
+  footer{
+    padding:32px 60px;border-top:1px solid rgba(255,255,255,0.07);
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+  .footer-brand{font-size:14px;font-weight:800;color:#F5A623;}
+  .footer-links{display:flex;gap:18px;}
+  .footer-links a{font-size:13px;color:rgba(255,255,255,0.4);}
+  .footer-copy{font-size:12px;color:rgba(255,255,255,0.2);width:100%;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-box">G</div>
+    <div>
+      <div class="nav-name"><span>GEE Pal</span> AI</div>
+      <div class="nav-by">by notGIS</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="https://github.com/notGIS/gee-pal-ai" target="_blank">GitHub</a>
+    <a href="https://www.youtube.com/@notGiS" target="_blank">YouTube</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">&#128295; Support Center</div>
+  <h1>How can we <span>help you?</span></h1>
+  <p>Find answers, get in touch, or report an issue with GEE Pal AI.</p>
+</div>
+
+<div class="container">
+
+  <!-- CONTACT -->
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="cc-icon">&#128139;</div>
+      <div class="cc-name">Email Support</div>
+      <div class="cc-desc">Send us your question or bug report directly</div>
+      <a class="cc-link cl-green" href="mailto:notgis.official@gmail.com">Send Email</a>
+    </div>
+    <div class="contact-card">
+      <div class="cc-icon">&#128030;</div>
+      <div class="cc-name">GitHub Issues</div>
+      <div class="cc-desc">Report bugs or request new features on GitHub</div>
+      <a class="cc-link cl-amber" href="https://github.com/notGIS/gee-pal-ai/issues" target="_blank">Open Issue</a>
+    </div>
+    <div class="contact-card">
+      <div class="cc-icon">&#128250;</div>
+      <div class="cc-name">YouTube Tutorials</div>
+      <div class="cc-desc">Watch step-by-step tutorial videos by notGIS</div>
+      <a class="cc-link cl-blue" href="https://www.youtube.com/@notGiS" target="_blank">Watch Now</a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="sec-title">Frequently asked <span>questions</span></div>
+  <div class="sec-sub">Quick answers to the most common questions.</div>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <div class="faq-q">Is GEE Pal AI free to use?</div>
+      <div class="faq-a">Yes, the extension itself is completely free. You only need your own API key from Routeway AI or Google Gemini — both offer free tiers to get started.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Where do I get an API key?</div>
+      <div class="faq-a">
+        For Routeway: visit <a href="https://routeway.ai" target="_blank">routeway.ai</a> and sign up.<br>
+        For Gemini: visit <a href="https://ai.google.dev" target="_blank">ai.google.dev</a> — free tier available.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Is my API key safe?</div>
+      <div class="faq-a">Yes. Your API key is stored only in <code>chrome.storage.local</code> on your own device. It is never sent to notGIS servers. All AI requests go directly from your browser to the API provider you choose.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">The Generate button is greyed out — why?</div>
+      <div class="faq-a">The extension only works on the Google Earth Engine Code Editor tab (<code>code.earthengine.google.com</code>). Make sure you have that tab open and active before using the extension.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">The generated code has errors — what should I do?</div>
+      <div class="faq-a">Click the <strong>Fix</strong> button — it will automatically read the console errors and repair the code. It tries up to 4 times. If it still fails, try the Modify button with a specific fix instruction.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I use Modify without generating first?</div>
+      <div class="faq-a">Yes. Write or paste any code into the GEE editor, then use Modify to enhance it. The AI reads the existing code from the editor and applies only what you request.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Is this extension affiliated with Google?</div>
+      <div class="faq-a">No. GEE Pal AI is an independent third-party tool developed by notGIS. It is not affiliated with, endorsed by, or officially connected to Google LLC or Google Earth Engine.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I update to a new version?</div>
+      <div class="faq-a">Chrome updates extensions automatically. You can also go to <code>chrome://extensions</code>, enable Developer Mode, and click "Update" to force an immediate update.</div>
+    </div>
+
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <div class="sec-title"><span>Requirements</span></div>
+  <div class="sec-sub">What you need to use GEE Pal AI.</div>
+
+  <div class="req-grid">
+    <div class="req-card">
+      <div class="req-title">&#127758; Essential</div>
+      <div class="req-item">Google Chrome browser (latest)</div>
+      <div class="req-item">Google Earth Engine account (free for research)</div>
+      <div class="req-item">Routeway API key OR Google Gemini API key</div>
+    </div>
+    <div class="req-card">
+      <div class="req-title">&#9989; Optional</div>
+      <div class="req-item">Python + geemap (for Python export)</div>
+      <div class="req-item">R + rgee package (for R export)</div>
+      <div class="req-item">Jupyter Notebook or RStudio</div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>⚠️ Disclaimer:</strong> GEE Pal AI is an independent third-party Chrome extension developed by notGIS. It is not affiliated with, endorsed by, or officially connected to Google LLC, Google Earth Engine, Alphabet Inc. or any other company or platform mentioned. All trademarks belong to their respective owners.
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">notGIS</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="https://github.com/notGIS/gee-pal-ai" target="_blank">GitHub</a>
+    <a href="mailto:notgispage@gmail.com">Email</a>
+  </div>
+  <div class="footer-copy">© 2026 notGIS. All rights reserved. · NOT JUST GiS. EVERYTHiNG AROUND iT</div>
+</footer>
+
+</body>
+</html>
